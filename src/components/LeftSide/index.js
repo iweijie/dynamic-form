@@ -5,7 +5,7 @@ import { map } from 'lodash';
 import styles from './index.less';
 import { Input, Tabs } from 'antd';
 import { drag, formContainer } from '@/constant/className';
-import { className } from '@/utils';
+import classnames from 'classnames';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const { TabPane } = Tabs;
@@ -54,14 +54,14 @@ export default ({ components }) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className={className(
+                                    className={classnames(
                                       drag,
                                       styles['side-group-item'],
                                     )}
                                     title={child.title}
                                   >
                                     <i
-                                      className={className(
+                                      className={classnames(
                                         'iconfont',
                                         child.icon,
                                       )}
@@ -70,7 +70,7 @@ export default ({ components }) => {
                                   </div>
                                   {snapshot.isDragging && (
                                     <div
-                                      className={className(
+                                      className={classnames(
                                         drag,
                                         styles['side-group-item'],
                                         styles['side-group-item-move'],
@@ -78,7 +78,7 @@ export default ({ components }) => {
                                       title={child.title}
                                     >
                                       <i
-                                        className={className(
+                                        className={classnames(
                                           'iconfont',
                                           child.icon,
                                         )}

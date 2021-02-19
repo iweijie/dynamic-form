@@ -1,6 +1,6 @@
 import { Effect, Reducer, Subscription } from 'umi';
-// import FormCom from '@/toyBricks/index';
-import FormCom from '@/DragComponents/index';
+import FormCom from '@/toyBricks/index';
+// import FormCom from '@/DragComponents/index';
 
 const IndexModel = {
   namespace: 'form',

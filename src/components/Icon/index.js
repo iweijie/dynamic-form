@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.less';
 import PropTypes from 'prop-types';
 import * as AntdIcons from '@ant-design/icons';
-import { isFristCapitalized } from '@/utils';
+import { isFirstCapitalized } from '@/utils';
 
 const { createFromIconfontCN, ...Icons } = AntdIcons;
 
@@ -15,11 +15,11 @@ const IconFont = createFromIconfontCN({
 
 const Icon = (props) => {
   const { type, ...other } = props;
-  if (Icons[type]) {
-    if (!isFristCapitalized(type)) return null;
-    const Com = Icons[type];
-    return <Com {...other} />;
-  }
+  // if (Icons[type]) {
+  //   if (!isFirstCapitalized(type)) return null;
+  //   const Com = Icons[type];
+  //   return <Com {...other} />;
+  // }
   return <IconFont {...props} />;
 };
 

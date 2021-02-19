@@ -47,10 +47,10 @@ export default [
       required: true,
       label: '就是一个字',
       initialValue: '',
-      prefix: 'step-backward',
+      prefix: 'iconicon-test',
+      suffix: 'iconicon-test',
     },
     props: {},
     actions: [],
-    subCollection: [],
   },
 ];

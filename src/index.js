@@ -2,22 +2,24 @@ import React, { useCallback } from 'react';
 import { IndexModelState, ConnectRC, Loading, connect } from 'umi';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { map, find, get, cloneDeep } from 'lodash';
-import { Icon } from 'antd';
 
 import { GlobalContext } from './context';
-// import { ContainerType } from '@/DragComponents';
-// import FormContainer from '@/DragComponents/containers/Form';
 import LeftSide from '@/components/LeftSide';
 import RightSide from '@/components/RightSide';
 import ActionBar from '@/components/ActionBar';
 import Nav from '@/components/Nav';
 
 import Form from './toyBricks/Form';
+import Icon from './toyBricks/Icon';
 import renderComponent from './toyBricks/renderComponent';
 // import Container from '@/components/Container';
 import Test from './test';
 import styles from './index.less';
 import json from './json';
+
+import * as ComMap from './toyBricks/autoImport';
+
+console.log('.....', ComMap);
 
 const getContainerForClone = (...res) => {
   console.log(res);

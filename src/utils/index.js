@@ -57,6 +57,6 @@ export const clone = (obj) => {
   };
 };
 
-export const isFristCapitalized = (str) => {
+export const isFirstCapitalized = (str) => {
   return /[A-Z]/.test(str.slice(0, 1));
 };

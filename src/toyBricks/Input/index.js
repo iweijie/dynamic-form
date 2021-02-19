@@ -1,28 +1,36 @@
-import { useCallback, useMemo } from 'react';
-import Input from './Input';
-import { usePersistFn } from 'ahooks';
+import { useMemo } from 'react';
+import { Input } from 'antd';
+import Icon from '../Icon/index';
+import { render } from './combine';
 
-export default (props) => {
-  const { prefix, suffix, action, onChange, $listen, ...other } = props;
-  const handleChange = usePersistFn((_, e) => {
-    onChange(e);
-  });
+export const config = [
+  {
+    title: '配置',
+    list: [
+      {
+        field: 'label',
+        name: 'Label名称',
+        type: 'input',
+      },
+      {
+        field: 'initialValue',
+        name: '默认值',
+        type: 'input',
+      },
+    ],
+  },
+];
 
-  $listen((params) => {
-    const { payload = {} } = params;
-    onChange(payload.value);
-  });
+export const render = (props) => {
+  const { prefix, suffix, ...other } = props;
 
-  const onChangeCustom = useMemo(() => [handleChange, true], [handleChange]);
+  const Prefix = useMemo(() => {
+    return prefix ? <Icon type={prefix} /> : null;
+  }, [prefix]);
 
-  return (
-    <Input {...other} onChange={onChangeCustom}>
-      {prefix ? (
-        <Input.Prefix>{/* <Icon type={prefix} /> */} </Input.Prefix>
-      ) : null}
-      {suffix ? (
-        <Input.Suffix>{/* <Icon type={suffix} /> */}</Input.Suffix>
-      ) : null}
-    </Input>
-  );
+  const Suffix = useMemo(() => {
+    return suffix ? <Icon type={suffix} /> : null;
+  }, [suffix]);
+
+  return <Input prefix={Prefix} suffix={Suffix} {...other} />;
 };

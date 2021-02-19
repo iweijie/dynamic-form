@@ -5,6 +5,8 @@ import OriginalLabel from './OriginalLabel';
 import Input from './Input';
 import Upload from './Upload';
 import Select from './Select';
+
+// require.context(directory, useSubdirectories, regExp)
 import {
   AutoComplete,
   Checkbox,
@@ -61,7 +63,7 @@ Object.keys(FormComponent).map((key) => {
       props,
     );
     if (!visible) return null;
-    console.log('pickFormItemProps', pickFormItemProps);
+
     return (
       <AForm.Item {...pickFormItemProps} initialValue="test">
         <Com {...componentProps} />

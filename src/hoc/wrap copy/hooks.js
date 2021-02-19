@@ -34,7 +34,7 @@ function normalizeListenerResult(result) {
   return Array.isArray(result) ? result : [result];
 }
 
-export const wrap = (DeclarativeComponent, is) => {
+export const wrap = (DeclarativeComponent) => {
   const {
     // 组件名称
     displayName,
@@ -63,7 +63,6 @@ export const wrap = (DeclarativeComponent, is) => {
     const [instance, setInstance] = useSetState(initialize);
     // 默认 state
     const [state, setState] = useSetState(() => {
-      console.log('defaultStateTypes', defaultStateTypes);
       const stateValueNames = Object.keys(defaultStateTypes);
       return {
         ...getDefaultState(),
