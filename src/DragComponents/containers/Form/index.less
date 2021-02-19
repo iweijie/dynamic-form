@@ -1,0 +1,36 @@
+@import '../../styles/var.less';
+
+.container {
+  min-height: 100px;
+  padding: @small;
+
+  .form-item {
+    padding: @small;
+
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    &:hover::after {
+      border: 1px dashed #787be8;
+      color: #787be8;
+    }
+  }
+}
+
+.container-wrap {
+  flex: 1;
+  height: 100%;
+}
+
+.container-move {
+  border: 1px dashed @mainColor;
+  color: @mainColor;
+}
