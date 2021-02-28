@@ -1,24 +1,28 @@
-import react, { forwardRef } from 'react';
-import { Select as ASelect } from 'antd';
-import Fields from './Fields.json';
+import React, { forwardRef, useMemo } from 'react';
+import { IS_FORM_COMPONENT } from '../../constant/index';
+import { Select } from 'antd';
 import { map } from 'lodash';
 
-const { Option, OptGroup } = ASelect;
+const { Option } = Select;
 
-const Select = forwardRef((props, ref) => {
-    console.log('Select: ', props);
-    const { options = [], ...other } = props;
+const Component = forwardRef((props, ref) => {
+    const { onChange, enums = [], ...other } = props;
     return (
-        <ASelect ref={ref} {...other}>
-            {map(options, option => {
+        <Select ref={ref} {...other} onSelect={onChange}>
+            {map(enums, option => {
                 return (
                     <Option key={option.value} value={option.value}>
                         {option.label}
                     </Option>
                 );
             })}
-        </ASelect>
+        </Select>
     );
 });
 
-export default Select;
+export default {
+    type: IS_FORM_COMPONENT,
+    component: Component,
+    // JSON 动态表单渲染，用于设置配置项，自洽！！
+    configurable: {},
+};

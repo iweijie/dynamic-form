@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useMemo, useCallback } from 'react';
 import { Form as AForm, Button } from 'antd';
 import FormFieldsJSON from './FormFields.json';
-import { rewriteFormItemLayoutProps } from '../../utils';
 import { IS_CONTAINER_COMPONENT } from '../../constant/index';
+import { rewriteFormItemLayoutProps } from '../../utils';
 import { isEmpty, pick, get, noop } from 'lodash';
 import FormItemProvider from './FormItemProvider';
+
 const { useForm } = AForm;
 
 const FormProviderFields = [
@@ -75,9 +76,6 @@ const Form = props => {
     );
 };
 
-Form[IS_CONTAINER_COMPONENT] = true;
-Form.contextType = 'form';
-
 Form.propTypes = {
     optionalArray: PropTypes.array,
     optionalBool: PropTypes.bool,
@@ -86,6 +84,7 @@ Form.propTypes = {
 
 Form.defaultProps = {};
 
-window.a = Form;
-
-export default Form;
+export default {
+    type: IS_CONTAINER_COMPONENT,
+    component: Form,
+};

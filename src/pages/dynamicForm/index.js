@@ -13,8 +13,9 @@ import Test from './test';
 import styles from './index.less';
 import json from './json';
 
-import renderComponent from './components/renderComponent';
+import renderComponent from './renderComponent';
 import { GlobalContext } from './context';
+
 const getContainerForClone = (...res) => {
     console.log(res);
     return <div>1111</div>;
@@ -69,10 +70,9 @@ const DynamicFormConfig = ({ components, dispatch, items }) => {
                 {/* <Container>{FormContainer.render({ items })}</Container> */}
 
                 <div style={{ flex: 1 }}>
-                    <ActionBar />
+                    {/* <ActionBar /> */}
                     <GlobalContext.Provider>
-                        {map(json, sub => renderComponent(sub))}
-                        {/* <Test /> */}
+                        {renderComponent(json)}
                     </GlobalContext.Provider>
                 </div>
                 <RightSide />

@@ -7,12 +7,12 @@ export default defineConfig({
             component: '@/components/Layout',
             routes: [
                 { path: '/dynamicForm', component: '@/pages/dynamicForm' },
-                {
-                    path: '/dynamicFormList',
-                    component: '@/pages/dynamicFormList',
-                },
-                { path: '/webList', component: '@/pages/webList' },
-                { path: '/example', component: '@/wrap/example/index' },
+                // {
+                //     path: '/dynamicFormList',
+                //     component: '@/pages/dynamicFormList',
+                // },
+                // { path: '/webList', component: '@/pages/webList' },
+                // { path: '/example', component: '@/wrap/example/index' },
                 // { path: '/form', component: '@/pages/form' },
                 { path: '/', redirect: '/dynamicForm' },
             ],
