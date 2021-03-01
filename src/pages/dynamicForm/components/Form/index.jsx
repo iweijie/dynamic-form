@@ -5,8 +5,9 @@ import FormFieldsJSON from './FormFields.json';
 import { IS_CONTAINER_COMPONENT } from '../../constant/index';
 import { rewriteFormItemLayoutProps } from '../../utils';
 import { isEmpty, pick, get, noop } from 'lodash';
-import FormItemProvider from './FormItemProvider';
+import FormContext from '../../context/FormContext';
 
+const { Provider } = FormContext;
 const { useForm } = AForm;
 
 const FormProviderFields = [
@@ -35,12 +36,14 @@ const Form = props => {
         return {
             pickProviderValue: {
                 ...pickProviderValue,
+                form,
                 labelCol: pickItem.labelCol,
                 wrapperCol: pickItem.wrapperCol,
             },
             pickItem,
         };
-    }, [props]);
+    }, [props, form]);
+
     const handleGetValue = () => {
         console.log(form.getFieldsValue());
     };
@@ -61,7 +64,7 @@ const Form = props => {
     const onValuesChange = useCallback((changedValues, allValues) => {}, []);
 
     return (
-        <FormItemProvider {...pickProviderValue} form={form} uuid={uuid}>
+        <Provider value={pickProviderValue}>
             <AForm
                 {...pickItem}
                 form={form}
@@ -72,7 +75,7 @@ const Form = props => {
                 {children}
             </AForm>
             <Button onClick={handleGetValue}>点我获取值</Button>
-        </FormItemProvider>
+        </Provider>
     );
 };
 

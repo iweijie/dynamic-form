@@ -33,6 +33,7 @@ export default {
             uuid: 112,
             type: 'Select',
             styles: {},
+            linkage: [{}],
             config: {
                 name: 'Select',
                 required: false,
@@ -58,6 +59,7 @@ export default {
                 required: true,
                 label: '就是一个字',
                 initialValue: '',
+                prefix: 'iconicon-test',
             },
             props: {},
             actions: {},

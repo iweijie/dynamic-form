@@ -8,6 +8,8 @@ import { clone } from '@/utils';
 import LeftSide from '@/components/LeftSide';
 import RightSide from '@/components/RightSide';
 import ActionBar from '@/components/ActionBar';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 // import Container from '@/components/Container';
 import Test from './test';
 import styles from './index.less';
@@ -72,7 +74,9 @@ const DynamicFormConfig = ({ components, dispatch, items }) => {
                 <div style={{ flex: 1 }}>
                     {/* <ActionBar /> */}
                     <GlobalContext.Provider>
-                        {renderComponent(json)}
+                        <ConfigProvider locale={zhCN}>
+                            {renderComponent(json)}
+                        </ConfigProvider>
                     </GlobalContext.Provider>
                 </div>
                 <RightSide />

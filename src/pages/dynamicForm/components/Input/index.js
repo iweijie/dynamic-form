@@ -4,8 +4,7 @@ import Input from './Input';
 import Icon from '../Icon/index';
 
 const Component = forwardRef((props, ref) => {
-    const { prefix, suffix, onChange, ...other } = props;
-
+    const { onChange, ...other } = props;
     const onChangeCustom = useMemo(
         () => [
             (_, e) => {
@@ -16,20 +15,7 @@ const Component = forwardRef((props, ref) => {
         [onChange],
     );
 
-    return (
-        <Input {...other} ref={ref} onChange={onChangeCustom}>
-            {prefix ? (
-                <Input.Prefix>
-                    <Icon type={prefix} />
-                </Input.Prefix>
-            ) : null}
-            {suffix ? (
-                <Input.Suffix>
-                    <Icon type={suffix} />
-                </Input.Suffix>
-            ) : null}
-        </Input>
-    );
+    return <Input {...other} ref={ref} onChange={onChangeCustom}></Input>;
 });
 
 export default {

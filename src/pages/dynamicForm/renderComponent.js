@@ -20,7 +20,6 @@ const ComMap = {
 };
 
 const renderComponent = json => {
-    console.log(json);
     const {
         type: componentName,
         uuid,

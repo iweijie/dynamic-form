@@ -10,10 +10,10 @@ const Input = wrap(RawInput);
 Object.assign(Input, identifiers);
 
 export default props => {
-    const { prefix, suffix, action, onChange, ...other } = props;
-
+    const { prefix, suffix, action, ...other } = props;
+    console.log(prefix);
     return (
-        <Input {...other} onChange={onChange}>
+        <Input {...other}>
             {prefix ? (
                 <Input.Prefix>
                     <Icon type={prefix} />
