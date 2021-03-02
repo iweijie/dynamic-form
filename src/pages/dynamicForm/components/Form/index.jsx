@@ -3,7 +3,7 @@ import React, { useMemo, useCallback } from 'react';
 import { Form as AForm, Button } from 'antd';
 import FormFieldsJSON from './FormFields.json';
 import { IS_CONTAINER_COMPONENT } from '../../constant/index';
-import { rewriteFormItemLayoutProps } from '../../utils';
+import { rewriteFormItemLayoutProps, syncHook } from '../../utils';
 import { isEmpty, pick, get, noop } from 'lodash';
 import FormContext from '../../context/FormContext';
 
@@ -21,7 +21,7 @@ const FormProviderFields = [
 
 const Form = props => {
     const [form] = useForm();
-    const { uuid, actions, children, ...other } = props;
+    const { uuid, children, ...other } = props;
     const { pickProviderValue, pickItem } = useMemo(() => {
         const FormFields = FormFieldsJSON.body.map(v => v.field);
         const pickItem = pick(other, FormFields);
@@ -61,7 +61,10 @@ const Form = props => {
         [form],
     );
 
-    const onValuesChange = useCallback((changedValues, allValues) => {}, []);
+    const onValuesChange = useCallback((changedValues, allValues) => {
+        console.log(changedValues, other);
+        // syncHook.call('form')allValues
+    }, []);
 
     return (
         <Provider value={pickProviderValue}>

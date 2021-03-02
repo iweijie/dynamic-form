@@ -1,3 +1,5 @@
+import { SyncHook } from 'tapable';
+
 const merge = (...rest) => {
     return Object.assign({}, ...rest);
 };
@@ -27,3 +29,5 @@ export const rewriteFormItemLayoutProps = props => {
     );
     return props;
 };
+
+export const syncHook = new SyncHook('form');

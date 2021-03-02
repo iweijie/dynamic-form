@@ -10,7 +10,8 @@ import DatePicker from './components/DatePicker/index';
 import Form from './components/Form/index';
 import FormItem from './components/FormItem/index';
 import EmptyComponent from './components/EmptyComponent';
-import { isEmpty, map } from 'lodash';
+import { forEach, isEmpty, map } from 'lodash';
+import { useEffect } from 'react';
 
 const ComMap = {
     Form,
@@ -19,22 +20,27 @@ const ComMap = {
     DatePicker,
 };
 
-const renderComponent = json => {
+const RenderComponent = json => {
     const {
         type: componentName,
         uuid,
         styles,
         config,
         props,
-        actions,
+        linkages,
         subCollection,
     } = json;
     if (!ComMap[componentName]) return EmptyComponent;
     const { type, component: Component } = ComMap[componentName];
 
+    useEffect(() => {
+        if (isEmpty(linkages)) return;
+        forEach(linkages, linkage => {});
+    }, [linkages]);
+
     if (type === IS_FORM_COMPONENT) {
         return (
-            <FormItem {...config} {...props}>
+            <FormItem key={uuid} {...config} {...props}>
                 <Component />
             </FormItem>
         );
@@ -42,7 +48,7 @@ const renderComponent = json => {
 
     if (isEmpty(subCollection)) {
         if (type === IS_CONTAINER_COMPONENT || type === IS_LAYOUT_COMPONENT) {
-            return <Component {...config} {...props} />;
+            return <Component key={uuid} {...config} {...props} />;
         } else {
             throw new Error('类型错误');
         }
@@ -50,8 +56,10 @@ const renderComponent = json => {
 
     if (type === IS_CONTAINER_COMPONENT || type === IS_LAYOUT_COMPONENT) {
         return (
-            <Component {...config} {...props}>
-                {map(subCollection, sub => renderComponent(sub))}
+            <Component key={uuid} {...config} {...props}>
+                {map(subCollection, sub => (
+                    <RenderComponent key={sub.uuid} {...sub} />
+                ))}
             </Component>
         );
     }
@@ -59,4 +67,4 @@ const renderComponent = json => {
     throw new Error('类型错误');
 };
 
-export default renderComponent;
+export default RenderComponent;

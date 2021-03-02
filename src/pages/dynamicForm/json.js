@@ -33,21 +33,19 @@ export default {
             uuid: 112,
             type: 'Select',
             styles: {},
-            linkage: [{}],
             config: {
                 name: 'Select',
                 required: false,
                 label: 'iweijie',
                 initialValue: 'test',
                 enums: [
-                    { value: 'test', label: '测试' },
-                    { value: 'iweijie', label: 'weijie' },
-                    { value: 'xiaofengfeng', label: '小凤凤' },
-                    { value: '1', label: '2' },
+                    { value: 'test', label: 'test' },
+                    { value: 'iweijie', label: 'iweijie' },
+                    { value: 'xiaofengfeng', label: 'xiaofengfeng' },
+                    { value: 'dazhizhu', label: 'dazhizhu' },
                 ],
             },
             props: {},
-            actions: {},
         },
         {
             uuid: 2,
@@ -62,8 +60,16 @@ export default {
                 prefix: 'iconicon-test',
             },
             props: {},
-            actions: {},
-            subCollection: [],
+            linkages: [
+                {
+                    action: '2',
+                    field: 'Input',
+                    exp: function(value, form) {
+                        if (value === '2') return true;
+                        return false;
+                    },
+                },
+            ],
         },
         {
             uuid: 3,
@@ -76,6 +82,21 @@ export default {
                 label: '时间',
                 format: 'YYYY-MM-DD hh:mm',
             },
+            linkages: [
+                {
+                    action: '1',
+                    field: 'Input',
+                    depend: [
+                        {
+                            field: 'Select',
+                            exp: function(value, form) {
+                                if (!value) return false;
+                                return true;
+                            },
+                        },
+                    ],
+                },
+            ],
             props: {},
             actions: {},
             subCollection: [],
