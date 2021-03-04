@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useContext } from 'react';
 import { Form as AForm, Button } from 'antd';
 import FormFieldsJSON from './FormFields.json';
 import { IS_CONTAINER_COMPONENT } from '../../constant/index';
-import { rewriteFormItemLayoutProps, syncHook } from '../../utils';
+import { rewriteFormItemLayoutProps } from '../../utils';
 import { isEmpty, pick, get, noop } from 'lodash';
 import FormContext from '../../context/FormContext';
+import GlobalContext from '../../context/GlobalContext';
 
 const { Provider } = FormContext;
 const { useForm } = AForm;
@@ -20,8 +21,13 @@ const FormProviderFields = [
 ];
 
 const Form = props => {
+    console.log('Form-props', props);
+
     const [form] = useForm();
     const { uuid, children, ...other } = props;
+
+    const { emitter } = useContext(GlobalContext);
+
     const { pickProviderValue, pickItem } = useMemo(() => {
         const FormFields = FormFieldsJSON.body.map(v => v.field);
         const pickItem = pick(other, FormFields);
@@ -47,13 +53,16 @@ const Form = props => {
     const handleGetValue = () => {
         console.log(form.getFieldsValue());
     };
+
     const onFinish = useCallback(value => {
         console.log(value);
     }, []);
+
     const onReset = useCallback(() => {
         const { resetFields } = form;
         resetFields();
     }, [form]);
+
     const onFinishFailed = useCallback(
         ({ values, errorFields, outOfDate }) => {
             console.log(values, errorFields, outOfDate);
@@ -61,10 +70,14 @@ const Form = props => {
         [form],
     );
 
-    const onValuesChange = useCallback((changedValues, allValues) => {
-        console.log(changedValues, other);
-        // syncHook.call('form')allValues
-    }, []);
+    const onValuesChange = useCallback(
+        (changedValues, allValues) => {
+            Object.keys(changedValues).forEach(key => {
+                emitter.emit(key, [changedValues[key], allValues, form]);
+            });
+        },
+        [emitter],
+    );
 
     return (
         <Provider value={pickProviderValue}>

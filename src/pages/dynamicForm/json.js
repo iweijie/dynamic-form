@@ -1,13 +1,5 @@
 /**
  * 组件数据结构：
- *
-    type: '',
-    component: '',
-    props: {},
-    config: {},
-    actions:[],
-    subCollection: [
-    ],
  */
 
 export default {
@@ -17,7 +9,7 @@ export default {
         labelCol: 6,
         wrapperCol: 10,
     },
-    props: {},
+    state: {},
     actions: [
         // {
         //     name: '请求接口',
@@ -45,7 +37,7 @@ export default {
                     { value: 'dazhizhu', label: 'dazhizhu' },
                 ],
             },
-            props: {},
+            state: {},
         },
         {
             uuid: 2,
@@ -57,14 +49,14 @@ export default {
                 required: true,
                 label: '就是一个字',
                 initialValue: '',
-                prefix: 'iconicon-test',
+                // prefix: 'iconicon-test',
             },
-            props: {},
+            state: {},
             linkages: [
                 {
                     action: '2',
                     field: 'Input',
-                    exp: function(value, form) {
+                    expression: function(value, values, form) {
                         if (value === '2') return true;
                         return false;
                     },
@@ -86,10 +78,11 @@ export default {
                 {
                     action: '1',
                     field: 'Input',
-                    depend: [
+                    depends: [
                         {
                             field: 'Select',
-                            exp: function(value, form) {
+                            expression: function(value, values, form) {
+                                debugger;
                                 if (!value) return false;
                                 return true;
                             },
@@ -97,8 +90,7 @@ export default {
                     ],
                 },
             ],
-            props: {},
-            actions: {},
+            state: {},
             subCollection: [],
         },
     ],

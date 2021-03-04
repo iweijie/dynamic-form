@@ -3,15 +3,17 @@ import {
     IS_CONTAINER_COMPONENT,
     IS_LAYOUT_COMPONENT,
 } from './constant/index';
-
+import Emittery from 'emittery';
+import GlobalContext from './context/GlobalContext';
 import Input from './components/Input/index';
 import Select from './components/Select/index';
 import DatePicker from './components/DatePicker/index';
 import Form from './components/Form/index';
 import FormItem from './components/FormItem/index';
 import EmptyComponent from './components/EmptyComponent';
-import { forEach, isEmpty, map } from 'lodash';
-import { useEffect } from 'react';
+import { forEach, isEmpty, every, map } from 'lodash';
+import { useContext, useEffect, useMemo } from 'react';
+import * as actions from './constant/linkageActions';
 
 const ComMap = {
     Form,
@@ -20,27 +22,25 @@ const ComMap = {
     DatePicker,
 };
 
-const RenderComponent = json => {
+const RenderComponent = params => {
     const {
         type: componentName,
         uuid,
-        styles,
-        config,
-        props,
-        linkages,
         subCollection,
-    } = json;
+
+        ...other
+        // styles,
+        // config,
+        // props,
+        // linkages,
+    } = params;
+
     if (!ComMap[componentName]) return EmptyComponent;
     const { type, component: Component } = ComMap[componentName];
 
-    useEffect(() => {
-        if (isEmpty(linkages)) return;
-        forEach(linkages, linkage => {});
-    }, [linkages]);
-
     if (type === IS_FORM_COMPONENT) {
         return (
-            <FormItem key={uuid} {...config} {...props}>
+            <FormItem key={uuid} {...other}>
                 <Component />
             </FormItem>
         );
@@ -48,7 +48,7 @@ const RenderComponent = json => {
 
     if (isEmpty(subCollection)) {
         if (type === IS_CONTAINER_COMPONENT || type === IS_LAYOUT_COMPONENT) {
-            return <Component key={uuid} {...config} {...props} />;
+            return <Component key={uuid} {...other} />;
         } else {
             throw new Error('类型错误');
         }
@@ -56,7 +56,7 @@ const RenderComponent = json => {
 
     if (type === IS_CONTAINER_COMPONENT || type === IS_LAYOUT_COMPONENT) {
         return (
-            <Component key={uuid} {...config} {...props}>
+            <Component key={uuid} {...other}>
                 {map(subCollection, sub => (
                     <RenderComponent key={sub.uuid} {...sub} />
                 ))}
@@ -67,4 +67,19 @@ const RenderComponent = json => {
     throw new Error('类型错误');
 };
 
-export default RenderComponent;
+const DynamicForm = props => {
+    const { json } = props;
+
+    const globalState = useMemo(() => {
+        const emitter = new Emittery();
+        return { emitter };
+    }, []);
+
+    return (
+        <GlobalContext.Provider value={globalState}>
+            <RenderComponent {...json} />
+        </GlobalContext.Provider>
+    );
+};
+
+export default DynamicForm;

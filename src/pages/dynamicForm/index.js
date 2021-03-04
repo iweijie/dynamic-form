@@ -15,7 +15,7 @@ import Test from './test';
 import styles from './index.less';
 import json from './json';
 
-import RenderComponent from './renderComponent';
+import DynamicForm from './renderComponent';
 import { GlobalContext } from './context';
 
 const getContainerForClone = (...res) => {
@@ -75,8 +75,7 @@ const DynamicFormConfig = ({ components, dispatch, items }) => {
                     {/* <ActionBar /> */}
                     <GlobalContext.Provider>
                         <ConfigProvider locale={zhCN}>
-                            <RenderComponent {...json} />
-                            {/* {renderComponent(json)} */}
+                            <DynamicForm json={json} />
                         </ConfigProvider>
                     </GlobalContext.Provider>
                 </div>
