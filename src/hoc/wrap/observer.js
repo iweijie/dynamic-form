@@ -7,20 +7,19 @@
 import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
 
-export const Observer = (function () {
-  function Observer() {
+export class Observer {
+  constructor() {
     this.store = {};
     this.payload = {};
   }
-  Observer.prototype.emit = function emit(type, payload) {
+
+  emit(type, payload) {
     const handle = get(this.store, type);
     if (!isFunction(handle)) return;
     handle(payload);
-  };
-  // 前置触发
-  // 已注册后触发， 和正常触发一致
-  // 未注册触发，会在注册时触发一次，未注册前的多次调用只会调用最后一次
-  Observer.prototype.perEmit = function preEmit(type, payload) {
+  }
+
+  preEmit(type, payload) {
     if (!this.store[type]) {
       this.payload[type] = {
         payload,
@@ -28,9 +27,9 @@ export const Observer = (function () {
       return;
     }
     this.emit(type, payload);
-  };
-  // 重复触发事件注册
-  Observer.prototype.on = function on(type, callback) {
+  }
+
+  on(type, callback) {
     if (!isFunction(callback)) return false;
     this.store[type] = callback;
     if (this.payload[type]) {
@@ -38,15 +37,15 @@ export const Observer = (function () {
       this.emit(type, payload);
       this.payload[type] = null;
     }
-  };
-  // 移除事件
-  Observer.prototype.off = function off(type) {
+  }
+
+  off(type) {
     if (!type || !this.store[type]) return false;
     this.store[type] = undefined;
     return true;
-  };
-  // 单次触发事件注册
-  Observer.prototype.once = function once(type, callback) {
+  }
+
+  once(type, callback) {
     if (!type) return;
     const _this = this;
     const anonym = function anonym() {
@@ -56,10 +55,7 @@ export const Observer = (function () {
       }
       return fn;
     };
-
-    this.store[type] = anonym();
-  };
-  return Observer;
-})();
+  }
+}
 
 export default new Observer();

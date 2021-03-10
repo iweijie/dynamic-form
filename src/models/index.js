@@ -1,5 +1,4 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import FormCom from '@/toyBricks/index';
 // import FormCom from '@/DragComponents/index';
 
 const IndexModel = {
@@ -10,7 +9,7 @@ const IndexModel = {
     // field/container
     active: [],
     // 左侧菜单可选列项
-    components: FormCom,
+    components: 1,
     // 以配置表单的列表项
     items: [],
   },
