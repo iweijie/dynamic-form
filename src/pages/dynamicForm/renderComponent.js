@@ -14,6 +14,7 @@ import EmptyComponent from './components/EmptyComponent';
 import { forEach, isEmpty, every, map } from 'lodash';
 import { useContext, useEffect, useMemo } from 'react';
 import * as actions from './constant/linkageActions';
+import { usePersistFn, useSetState } from 'ahooks';
 
 const ComMap = {
     Form,
@@ -35,7 +36,34 @@ const RenderComponent = params => {
         // linkages,
     } = params;
 
-    if (!ComMap[componentName]) return EmptyComponent;
+    const UUIDSTRING = uuid.toString();
+
+    const { config, linkages } = other;
+    const { emitter } = useContext(GlobalContext);
+
+    // 状态管理
+    const [state, setState] = useSetState({
+        visible: config.visible || true,
+    });
+
+    const handleChangeStatus = usePersistFn(status => {
+        status = !!status;
+        if (state.visible === status) return;
+        setState({ visible: status });
+    });
+
+    useEffect(() => {
+        console.log('11111');
+        emitter.on(UUIDSTRING, handleChangeStatus);
+
+        return () => {
+            emitter.off(UUIDSTRING, handleChangeStatus);
+        };
+    }, [handleChangeStatus, emitter]);
+
+    const { visible } = state;
+
+    if (!ComMap[componentName] || !visible) return <EmptyComponent />;
     const { type, component: Component } = ComMap[componentName];
 
     if (type === IS_FORM_COMPONENT) {
